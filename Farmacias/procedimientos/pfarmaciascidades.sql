@@ -1,9 +1,6 @@
 /*llamado pfarmaciascidades que liste los nombres de todasa las farmacias y el nombre de la ciudad donde se encuentran*/
 
-CREATE or replace procedure pfarmaciascidades()
-    LANGUAGE PLPGSQL
-    AS
-$$
+
 DECLARE
 fila record;
 filax record;
@@ -14,17 +11,13 @@ r varchar;
 BEGIN
 r=E'\n';
 cuenta = 0;
-
-
-for fila in select nomf from farmacias LOOP
 cuenta = cuenta+1;
-select nomc into filax from cidades;
-r = r||fila.nomf ||'  '||filax.nomc || E'\n';
-
-
+for fila in select nomf,codc from farmacias  LOOP
+FOR filax IN select nomc from cidades where codc=fila.codc LOOP
+ r=r||E'\n '|| fila.nomf||','||filax.nomc;
 
 end LOOP;
-
+end LOOP;
 raise notice ' % ',r;
 end;
-$$;
+
