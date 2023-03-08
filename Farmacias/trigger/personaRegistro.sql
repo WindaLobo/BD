@@ -1,4 +1,4 @@
-
+﻿
 DROP FUNCTION propiosRegistro() CASCADE;
 CREATE FUNCTION propiosRegistro()
 	RETURNS TRIGGER
