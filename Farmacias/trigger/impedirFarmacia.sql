@@ -1,4 +1,7 @@
 -- insert into traballan values ('10','3688');
+/*
+impedir que nunha mesma farmacia traballe mais dun farmaceutico, a menos que o novo farmaceutico sexa da mesma cidade na que esté a farmacia
+*/
 
 DROP FUNCTION impedirFarmacias() CASCADE;
 CREATE FUNCTION impedirFarmacias()

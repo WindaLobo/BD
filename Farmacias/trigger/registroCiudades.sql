@@ -9,9 +9,9 @@ DECLARE
  cuenta integer;
 
 BEGIN
-  select count( nomc ) into cuenta from cidades where  nomc =new.nomc;
- if  cuenta = 1  then
- raise notice 'rechazada insecion';
+  select count(*) into cuenta from cidades where  nomc =new.nomc;
+ if  cuenta >0  then
+ raise notice 'rechazada insecion no se puede tener el mismo nombre ';
     else
     raise exception ' aceptada insercion ';
   	 

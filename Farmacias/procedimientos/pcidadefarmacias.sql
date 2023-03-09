@@ -1,27 +1,25 @@
+ DROP PROCEDURE pcidadefarmacias(codigoF integer); 
 CREATE or replace procedure pcidadefarmacias (codigoF integer)
     LANGUAGE PLPGSQL
     AS
 $$
 DECLARE
-filax record;
+filax integer;
 fila record;
 r varchar;
-cuenta integer;
-nombre varchar;
 	
 BEGIN
 r=E'\n';
-cuenta = 0;
-nombre='';
-for fila in select nomf,codc from farmacias where codc=codigoF  LOOP
-cuenta = cuenta +1;
-nombre=E'\n'||fila.nomf||nombre||E'\n';
-   end LOOP; 
-   if cuenta != 0 then
-     r = r||'La farmacia es:'||nombre;
+   select count(*) into filax from cidades where codc=codigoF;
+ if filax = 0 then
+  r = r || 'esta farmacia no se enceuntra en esa ciudad'; 
+   else
 
-	      else
-	  r = r || 'esta farmacia no se enceuntra en esa ciudad'; 
+for fila in select nomf from farmacias where codc=codigoF  LOOP
+ r = r||'La farmacia es:'||fila.nomf||E'\n';
+
+   end LOOP; 
+ 
 	   end if;
 			   
 raise notice '%',r;
