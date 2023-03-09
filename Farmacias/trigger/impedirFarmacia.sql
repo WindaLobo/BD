@@ -1,3 +1,5 @@
+-- insert into traballan values ('10','3688');
+
 DROP FUNCTION impedirFarmacias() CASCADE;
 CREATE FUNCTION impedirFarmacias()
 	RETURNS TRIGGER
@@ -9,14 +11,15 @@ contaP integer;
 contaF integer;
 BEGIN
  select count (*) into contaP from traballan where  codf=new.codf;
-select count (*) into contaF from farmacias  where  codf=new.codf;
- if  contaP =0 and  contaF=0  then
- raise notice ' aceptada insercion ';
+
+ if  contaP >=2 then
+ raise exception 'rechazada insecion';
+ 
     else
-    raise exception 'rechazada insecion';
+    raise notice ' aceptada insercion ';
   	 
   end if;
     return new;
 END;
 $$;
-CREATE TRIGGER impedirFarmaciast before INSERT ON farmacias for each row EXECUTE PROCEDURE impedirFarmacias();
+CREATE TRIGGER impedirFarmaciast before INSERT ON traballan for each row EXECUTE PROCEDURE impedirFarmacias();
